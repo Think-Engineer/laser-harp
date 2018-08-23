@@ -1,3 +1,4 @@
+#include "audio.h"
 
 #define BUTTON_COUNT    2
 #define LASER_COUNT     26
@@ -36,6 +37,7 @@ int lasers[LASER_COUNT] = {
 void setup() {
     Serial.begin(9600);
     Serial.println("Hello EMF!");
+    audioInit();
 }
 
 /**
@@ -67,5 +69,5 @@ void loop() {
         Serial.print(" ");
     }
     Serial.println();
-    
+    audioLoop();
 }
