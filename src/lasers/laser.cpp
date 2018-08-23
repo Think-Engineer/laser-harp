@@ -22,7 +22,7 @@ int lasers[LASER_COUNT] = {
     9,      8,
     6,      7,
     4,      5,
-    //2,      3
+    //2,      3 //TODO: Undo after hardware serial
 };
 
 /* Store Laser States */

@@ -3,7 +3,7 @@
 #include "audio.h"
 
 #define BUTTON_COUNT    2
-//#define LASER_COUNT     26
+//#define LASER_COUNT     26 //TODO: Undo after hardware Serial
 #define LASER_COUNT     24
 
 #define LASER_BROKEN    HIGH

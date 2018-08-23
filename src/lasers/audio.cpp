@@ -1,6 +1,7 @@
 #include "audio.h"
 
-SoftwareSerial midiSerial(2, 3); // Soft TX on 3, RX not used (2 is an input anyway, for VS_DREQ)
+/* Soft TX on 3, RX not used (2 is an input anyway, for VS_DREQ) */
+SoftwareSerial midiSerial(2, 3); //TODO: Use hardware serial
 
 /* Private functions */
 
@@ -37,11 +38,14 @@ void talkMIDI(byte cmd, byte data1, byte data2) {
 void audioInit() {
 	midiSerial.begin(31250);
 	pinMode(VS_RESET, OUTPUT);
-	digitalWrite(VS_RESET, LOW); 	// Put VS1053 into hardware reset
+	/* Put VS1053 into hardware reset */
+	digitalWrite(VS_RESET, LOW);
 	delayMicroseconds(1);
-	digitalWrite(VS_RESET, HIGH);	// Bring up VS1053
+	/* Bring up VS1053 */
+	digitalWrite(VS_RESET, HIGH);
 	pinMode(VS_GPIO1, OUTPUT);
-	digitalWrite(VS_GPIO1, HIGH);	// Enable real time MIDI mode
+	/* Enable real time MIDI mode */
+	digitalWrite(VS_GPIO1, HIGH);
 	delay(1000);
 }
 
@@ -61,11 +65,14 @@ void noteOff(byte channel, byte note, byte release_velocity) {
 }
 
 void updateVolume(int volume) {
-  	talkMIDI(0xB0, 0x07, volume);	// 0xB0 is channel message, set channel volume to near max (127)
+	/* 0xB0 is channel message, channel volume max = 127 */
+  	talkMIDI(0xB0, 0x07, volume);
 }
 void updateBank(int bank) {
-    talkMIDI(0xB0, bank, 0x00); 	// Default bank GM1
+	/* Default bank GM1 = 0 */
+    talkMIDI(0xB0, bank, 0x00);
 }
 void updateVoice(int voice) {
-	talkMIDI(0xC0, voice, 0); 		// Set instrument number. 0xC0 is a 1 data byte command
+	/* Set instrument number. 0xC0 is a 1 data byte command */
+	talkMIDI(0xC0, voice, 0);
 }

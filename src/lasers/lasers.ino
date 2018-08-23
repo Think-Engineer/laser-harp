@@ -25,5 +25,5 @@ void setup() {
  */
 void loop() {
     laserUpdate();
-    //playMario();
+    //playMario(); //DEBUG
 }
