@@ -2,7 +2,7 @@
 #include "mario.h"
 #include "laser.h"
 
-#define DEFAULT_VOICE   102
+#define DEFAULT_VOICE   46
 #define DEFAULT_VOLUME  120
 
 /**

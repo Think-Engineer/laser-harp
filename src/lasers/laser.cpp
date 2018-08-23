@@ -32,14 +32,14 @@ int laserStates[LASER_COUNT];
  *  Handle laser being broken (user strumming the string).
  */
 void laserBreak(int laser) {
-    noteOn(0, 76, 127);
+    noteOn(0, laser * 3, 127);
 }
 
 /**
  *  Handle laser becoming intact (user stops strumming the string).  
  */
 void laserIntact(int laser) {
-    noteOff(0, 76, 127);
+    noteOff(0, laser * 3, 127);
 }
 
 /**
@@ -48,7 +48,7 @@ void laserIntact(int laser) {
 void laserInit() {
 	for (int i = 0; i < LASER_COUNT; i++) {
         //TODO: Remove test rig pullups
-        if (i == 23) {
+        if (i == 23 || i == 24) {
             pinMode(lasers[i], INPUT);
         } else {
             pinMode(lasers[i], INPUT_PULLUP);
