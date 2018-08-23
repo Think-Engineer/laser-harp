@@ -32,25 +32,17 @@ void talkMIDI(byte cmd, byte data1, byte data2) {
 /* Public functions */
 
 /**
- *	Initialises the Audio Chip.
+ *	Initialises the VS1053 Audio Chip.
  */
 void audioInit() {
 	midiSerial.begin(31250);
 	pinMode(VS_RESET, OUTPUT);
-	Serial.println("\n******\n");
-	Serial.println("MP3 Shield Example");
-
-	/* Initialize VS1053 chip */
 	digitalWrite(VS_RESET, LOW); 	// Put VS1053 into hardware reset
 	delayMicroseconds(1);
 	digitalWrite(VS_RESET, HIGH);	// Bring up VS1053
 	pinMode(VS_GPIO1, OUTPUT);
 	digitalWrite(VS_GPIO1, HIGH);	// Enable real time MIDI mode
-
-	/* Setup chip */
-  	talkMIDI(0xB0, 0x07, 120);		// 0xB0 is channel message, set channel volume to near max (127)
-    talkMIDI(0xB0, 0, 0x00); 		// Default bank GM1
-    talkMIDI(0xC0, 46, 0); 			// Set instrument number. 0xC0 is a 1 data byte command
+	delay(1000);
 }
 
 /** 
@@ -66,4 +58,14 @@ void noteOn(byte channel, byte note, byte attack_velocity) {
  */
 void noteOff(byte channel, byte note, byte release_velocity) {
   	talkMIDI((0x80 | channel), note, release_velocity);
+}
+
+void updateVolume(int volume) {
+  	talkMIDI(0xB0, 0x07, volume);	// 0xB0 is channel message, set channel volume to near max (127)
+}
+void updateBank(int bank) {
+    talkMIDI(0xB0, bank, 0x00); 	// Default bank GM1
+}
+void updateVoice(int voice) {
+	talkMIDI(0xC0, voice, 0); 		// Set instrument number. 0xC0 is a 1 data byte command
 }

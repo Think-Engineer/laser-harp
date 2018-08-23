@@ -2,14 +2,22 @@
 #include "mario.h"
 #include "laser.h"
 
+#define DEFAULT_VOICE   102
+#define DEFAULT_VOLUME  120
+
 /**
  *  Sets up serial output and plays a chime.
  */
 void setup() {
+    /* Initialise Serial */
     Serial.begin(9600);
-    Serial.println("Hello EMF!");
+    Serial.println("Hello EMFCamp 2018!");
+    /* Initialise libraries */
     audioInit();
     laserInit();
+    /* Initialise harp */
+    updateVoice(DEFAULT_VOICE);
+    updateVolume(DEFAULT_VOLUME);
 }
 
 /**
@@ -18,15 +26,4 @@ void setup() {
 void loop() {
     laserUpdate();
     //playMario();
-
-    /* Check buttons 
-    Serial.print("Checking buttons... ");
-	for (int i = 0; i < BUTTON_COUNT; i++) {
-        Serial.print(i);
-        Serial.print(" ");
-    }
-    Serial.println();
-
-     Poll lasers */
-    
 }

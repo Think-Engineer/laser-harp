@@ -16,9 +16,8 @@ int order[15] = {
     0, 1, 1, 2, 3, 2, 3, 4, 1, 1, 5, 5, 4, 5, 6
 };
 
-/* Plays given part */
+/* Plays given part of song */
 void playPart(int part) {
-    Serial.println("Part " + String(part));
     for (int i = 0; i < sizeof(tunes[part]); i += 2) {
         noteOn(0, tunes[part][i], 127);
         delay(tunes[part][i + 1] * LENGTH);

@@ -1,6 +1,4 @@
-#include <Arduino.h>
 #include "laser.h"
-#include "audio.h"
 
 /* Store Button Pins */
 int buttons[BUTTON_COUNT] = { 
@@ -30,23 +28,26 @@ int lasers[LASER_COUNT] = {
 /* Store Laser States */
 int laserStates[LASER_COUNT];
 
-
-
+/**
+ *  Handle laser being broken (user strumming the string).
+ */
 void laserBreak(int laser) {
-    //Serial.println(String(laser) + " broken!");
     noteOn(0, 76, 127);
 }
 
+/**
+ *  Handle laser becoming intact (user stops strumming the string).  
+ */
 void laserIntact(int laser) {
-    //Serial.println(String(laser) + " intact!");
     noteOff(0, 76, 127);
 }
 
 /**
- * Initially read and save laser states.
+ * Read and save initial laser states.
  */
 void laserInit() {
 	for (int i = 0; i < LASER_COUNT; i++) {
+        //TODO: Remove test rig pullups
         if (i == 23) {
             pinMode(lasers[i], INPUT);
         } else {
@@ -60,18 +61,19 @@ void laserInit() {
  *  Check if lasers updated and take action.
  */
 void laserUpdate() {
-    //Serial.print("Checking lasers... ");
     int newState, oldState;
 	for (int i = 0; i < LASER_COUNT; i++) {
+        /* Fetch states */
         newState = digitalRead(lasers[i]);
         oldState = laserStates[i];
-        //Serial.print(String(i) + "-" + String(oldState) + ">" + String(newState) + " ");
+        /* Check if there is change */
         if (newState == LASER_INTACT && oldState == LASER_BROKEN) {
             laserIntact(i);
         }
         if (newState == LASER_BROKEN && oldState == LASER_INTACT) {
             laserBreak(i);
         }
+        /* Update state */
         laserStates[i] = newState;
     }
 }
