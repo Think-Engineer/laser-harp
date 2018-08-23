@@ -1,4 +1,5 @@
 #include "audio.h"
+#include "mario.h"
 
 #define BUTTON_COUNT    2
 #define LASER_COUNT     26
@@ -69,5 +70,5 @@ void loop() {
         Serial.print(" ");
     }
     Serial.println();
-    audioLoop();
+    playMario();
 }
