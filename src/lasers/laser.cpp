@@ -1,10 +1,5 @@
 #include "laser.h"
 
-/* Store Button Pins */
-int buttons[BUTTON_COUNT] = { 
-    A0,     A1 
-};
-
 /* Store Laser Pins */
 int lasers[LASER_COUNT] = {
     /* Analog pins */
@@ -14,7 +9,7 @@ int lasers[LASER_COUNT] = {
     A8,     A9,
     A10,    A11,
     A12,    A13,
-    A14,    A15,
+    //A14,    A15, //TODO: Undo after buttons installed
 
     /* Digital pins */
     12,     13,
@@ -48,7 +43,7 @@ void laserIntact(int laser) {
 void laserInit() {
 	for (int i = 0; i < LASER_COUNT; i++) {
         //TODO: Remove test rig pullups
-        if (i == 23 || i == 24) {
+        if (i == 21 || i == 22) {
             pinMode(lasers[i], INPUT);
         } else {
             pinMode(lasers[i], INPUT_PULLUP);

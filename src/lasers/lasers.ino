@@ -1,6 +1,7 @@
 #include "audio.h"
 #include "mario.h"
 #include "laser.h"
+#include "button.h"
 
 #define DEFAULT_VOICE   46
 #define DEFAULT_VOLUME  120
@@ -15,6 +16,7 @@ void setup() {
     /* Initialise libraries */
     audioInit();
     laserInit();
+    buttonInit();
     /* Initialise harp */
     updateVoice(DEFAULT_VOICE);
     updateVolume(DEFAULT_VOLUME);
@@ -25,5 +27,6 @@ void setup() {
  */
 void loop() {
     laserUpdate();
+    buttonUpdate();
     //playMario(); //DEBUG
 }
