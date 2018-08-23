@@ -18,13 +18,11 @@ int order[15] = {
 
 /* Plays given part */
 void playPart(int part) {
-    Serial.print("Part ");
-    Serial.println(part);
-    int length = sizeof(tunes[part]);
-    for (int i = 0; i < length / 2; i++) {
-        noteOn(0, tunes[part][i * 2], 127);
-        delay(tunes[part][i * 2 + 1] * LENGTH);
-        noteOff(0, tunes[part][i * 2], 127);
+    Serial.println("Part " + String(part));
+    for (int i = 0; i < sizeof(tunes[part]); i += 2) {
+        noteOn(0, tunes[part][i], 127);
+        delay(tunes[part][i + 1] * LENGTH);
+        noteOff(0, tunes[part][i], 127);
     }
 }
 

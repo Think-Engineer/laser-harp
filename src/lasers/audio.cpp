@@ -1,15 +1,6 @@
 #include "audio.h"
 
-#define USE_GPIO_INIT  1
-#define USE_SPI_MIDI   0
-#define USE_PATCH_INIT  !USE_GPIO_INIT
-#define USE_SERIAL_MIDI !USE_SPI_INIT
-#define USE_SPI         (USE_SPI_MIDI||USE_PATCH_INIT)
-#define VS_RESET  8             // Reset is active low
-#define VS_GPIO1  4             // Mode selection (0 = file / 1 = real time MIDI)
-SoftwareSerial midiSerial(2,3); // Soft TX on 3, RX not used (2 is an input anyway, for VS_DREQ)
-
-
+SoftwareSerial midiSerial(2, 3); // Soft TX on 3, RX not used (2 is an input anyway, for VS_DREQ)
 
 /* Private functions */
 
