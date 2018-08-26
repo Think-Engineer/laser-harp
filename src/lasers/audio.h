@@ -2,9 +2,9 @@
 #include <SoftwareSerial.h>
 
 /* Reset is active low */
-#define VS_RESET  8
+#define VS_RESET  51
 /* Mode selection (0 = file / 1 = real time MIDI) */
-#define VS_GPIO1  4
+#define VS_GPIO1  53
 
 void audioInit();
 void audioLoop();
