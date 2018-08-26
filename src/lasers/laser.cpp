@@ -3,13 +3,13 @@
 /* Store Laser Pins */
 int lasers[LASER_COUNT] = {
     /* Analog pins */
+    A0,     A1,
     A2,     A3,
     A4,     A5,
     A6,     A7,
     A8,     A9,
     A10,    A11,
     A12,    A13,
-    //A14,    A15, //TODO: Undo after buttons installed
 
     /* Digital pins */
     12,     13,
@@ -17,7 +17,7 @@ int lasers[LASER_COUNT] = {
     9,      8,
     6,      7,
     4,      5,
-    //2,      3 //TODO: Undo after hardware serial
+    2,      3
 };
 
 /* Store Laser States */
@@ -27,14 +27,22 @@ int laserStates[LASER_COUNT];
  *  Handle laser being broken (user strumming the string).
  */
 void laserBreak(int laser) {
+  if(FLIP_TRIGGERS) {
+    noteOff(0, laser * 3, 127);
+  } else {
     noteOn(0, laser * 3, 127);
+  }
 }
 
 /**
  *  Handle laser becoming intact (user stops strumming the string).  
  */
 void laserIntact(int laser) {
+  if(FLIP_TRIGGERS) {
+    noteOn(0, laser * 3, 127);
+  } else {
     noteOff(0, laser * 3, 127);
+  }
 }
 
 /**
@@ -46,7 +54,7 @@ void laserInit() {
         if (i == 21 || i == 22) {
             pinMode(lasers[i], INPUT);
         } else {
-            pinMode(lasers[i], INPUT_PULLUP);
+            pinMode(lasers[i], INPUT);
         }
         laserStates[i] = digitalRead(lasers[i]);
     }
@@ -56,7 +64,7 @@ void laserInit() {
  *  Check if lasers updated and take action.
  */
 void laserUpdate() {
-    int newState, oldState;
+  int newState, oldState;
 	for (int i = 0; i < LASER_COUNT; i++) {
         /* Fetch states */
         newState = digitalRead(lasers[i]);
