@@ -1,6 +1,6 @@
 #include "laser.h"
 
-int midiNoteOffset = 24
+int midiNoteOffset = 48;
 
 /* Store Laser Pins */
 int lasers[LASER_COUNT] = {
