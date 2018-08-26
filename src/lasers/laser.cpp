@@ -1,5 +1,7 @@
 #include "laser.h"
 
+int midiNoteOffset = 24
+
 /* Store Laser Pins */
 int lasers[LASER_COUNT] = {
     /* Analog pins */
@@ -28,9 +30,9 @@ int laserStates[LASER_COUNT];
  */
 void laserBreak(int laser) {
   if(FLIP_TRIGGERS) {
-    noteOff(0, laser * 3, 127);
+    noteOff(0, laser + midiNoteOffset, 127);
   } else {
-    noteOn(0, laser * 3, 127);
+    noteOn(0, laser + midiNoteOffset, 127);
   }
 }
 
@@ -39,9 +41,9 @@ void laserBreak(int laser) {
  */
 void laserIntact(int laser) {
   if(FLIP_TRIGGERS) {
-    noteOn(0, laser * 3, 127);
+    noteOn(0, laser + midiNoteOffset, 127);
   } else {
-    noteOff(0, laser * 3, 127);
+    noteOff(0, laser + midiNoteOffset, 127);
   }
 }
 
