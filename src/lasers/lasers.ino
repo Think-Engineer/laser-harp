@@ -6,6 +6,8 @@
 #define DEFAULT_VOICE   46
 #define DEFAULT_VOLUME  120
 
+int useVoice = 0;
+
 /**
  *  Sets up serial output and plays a chime.
  */
@@ -26,7 +28,12 @@ void setup() {
  *  Polls buttons and lasers and updates states accordingly.
  */
 void loop() {
-    laserUpdate();
-    buttonUpdate();
+    int voice = buttonUpdate();
+    /* If voice changed */
+    if (voice > 0) {
+      useVoice = voice;
+      laserInit();
+    }
+    laserUpdate(useVoice);
     //playMario(); //DEBUG
 }

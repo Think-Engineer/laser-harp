@@ -1,7 +1,5 @@
 #include "laser.h"
 
-int midiNoteOffset = 48;
-
 /* Store Laser Pins */
 int lasers[LASER_COUNT] = {
     /* Analog pins */
@@ -22,28 +20,31 @@ int lasers[LASER_COUNT] = {
     2,      3
 };
 
+/* Specify which voices to flip */
+bool flip[VOICE_COUNT]  = {  1,   0,  1,  0,   0,  0,  0,  0,  0,  1 };
+
 /* Store Laser States */
 int laserStates[LASER_COUNT];
 
 /**
  *  Handle laser being broken (user strumming the string).
  */
-void laserBreak(int laser) {
-  if(FLIP_TRIGGERS) {
-    noteOff(0, laser + midiNoteOffset, 127);
+void laserBreak(int laser, int voice) {
+  if(flip[voice]) {
+    noteOff(0, laser + NOTE_OFFSET, 127);
   } else {
-    noteOn(0, laser + midiNoteOffset, 127);
+    noteOn(0, laser + NOTE_OFFSET, 127);
   }
 }
 
 /**
  *  Handle laser becoming intact (user stops strumming the string).  
  */
-void laserIntact(int laser) {
-  if(FLIP_TRIGGERS) {
-    noteOn(0, laser + midiNoteOffset, 127);
+void laserIntact(int laser, int voice) {
+  if(flip[voice]) {
+    noteOn(0, laser + NOTE_OFFSET, 127);
   } else {
-    noteOff(0, laser + midiNoteOffset, 127);
+    noteOff(0, laser + NOTE_OFFSET, 127);
   }
 }
 
@@ -52,20 +53,16 @@ void laserIntact(int laser) {
  */
 void laserInit() {
 	for (int i = 0; i < LASER_COUNT; i++) {
-        //TODO: Remove test rig pullups
-        if (i == 21 || i == 22) {
-            pinMode(lasers[i], INPUT);
-        } else {
-            pinMode(lasers[i], INPUT);
-        }
+        pinMode(lasers[i], INPUT);
         laserStates[i] = digitalRead(lasers[i]);
+        noteOff(0, i + NOTE_OFFSET, 127);
     }
 }
 
 /**
  *  Check if lasers updated and take action.
  */
-void laserUpdate() {
+void laserUpdate(int voice) {
   int newState, oldState;
 	for (int i = 0; i < LASER_COUNT; i++) {
         /* Fetch states */
@@ -73,10 +70,10 @@ void laserUpdate() {
         oldState = laserStates[i];
         /* Check if there is change */
         if (newState == LASER_INTACT && oldState == LASER_BROKEN) {
-            laserIntact(i);
+            laserIntact(i, voice);
         }
         if (newState == LASER_BROKEN && oldState == LASER_INTACT) {
-            laserBreak(i);
+            laserBreak(i, voice);
         }
         /* Update state */
         laserStates[i] = newState;

@@ -1,4 +1,5 @@
-#import <Arduino.h>
+#pragma once
+#include <Arduino.h>
 #include <SoftwareSerial.h>
 
 /* Reset is active low */
