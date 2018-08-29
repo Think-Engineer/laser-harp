@@ -1,15 +1,12 @@
 #include "audio.h"
 
-/* Soft TX on 3, RX not used (2 is an input anyway, for VS_DREQ) */
-SoftwareSerial midiSerial(2, 3); //TODO: Use hardware serial
-
 /* Private functions */
 
 /**
  *	Write raw data to MIDI serial.
  */
 void sendMIDI(byte data) {
-	midiSerial.write(data);
+	Serial2.write(data);
 }
 
 /** 
@@ -36,7 +33,7 @@ void talkMIDI(byte cmd, byte data1, byte data2) {
  *	Initialises the VS1053 Audio Chip.
  */
 void audioInit() {
-	midiSerial.begin(31250);
+	Serial2.begin(31250);
 	pinMode(VS_RESET, OUTPUT);
 	/* Put VS1053 into hardware reset */
 	digitalWrite(VS_RESET, LOW);

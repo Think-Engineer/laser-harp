@@ -1,7 +1,5 @@
 #include "button.h"
 
-#define VOICE_COUNT 10
-
 /* Store Button Pins and Values */
 int nextButton = A14; //TODO: update after buttons installed
 int nextButtonValue;
@@ -27,17 +25,19 @@ void saveVoice() {
     noteOff(0, 55, 127);
 }
 
-void nextVoice() {
+int nextVoice() {
     currentVoice = (currentVoice + 1) % VOICE_COUNT;
     saveVoice();
+    return currentVoice;
 }
 
-void prevVoice() {
+int prevVoice() {
     currentVoice = (currentVoice - 1);
     if (currentVoice < 0) {
         currentVoice += VOICE_COUNT;
     }
     saveVoice();
+    return currentVoice;
 }
 
 void buttonInit() {
@@ -47,19 +47,26 @@ void buttonInit() {
     prevButtonValue = digitalRead(prevButton);
 }
 
-void buttonUpdate() {
+/**
+ * Returns value if voice updated. Returns -1 if not.
+ */
+int buttonUpdate() {
     int newNextButtonValue = digitalRead(nextButton);
     int newPrevButtonValue = digitalRead(prevButton);
 
+    int newVoice = -1;
+
     /* Next Button clicked down */
     if (newNextButtonValue == LOW && nextButtonValue == HIGH) {
-        nextVoice();       
+        newVoice = nextVoice();       
     }
     /* Prev Button clicked down */
     if (newPrevButtonValue == LOW && prevButtonValue == HIGH) {
-        prevVoice();      
+        newVoice = prevVoice();      
     }
 
     prevButtonValue = newPrevButtonValue;
     nextButtonValue = newNextButtonValue;
+
+    return newVoice;
 }
