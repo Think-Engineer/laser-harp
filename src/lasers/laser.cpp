@@ -23,6 +23,8 @@ int lasers[LASER_COUNT] = {
 /* Specify which voices to flip */
 bool flip[VOICE_COUNT]  = {  1,   0,  1,  0,   0,  0,  0,  0,  0,  1 };
 
+int notes[LASER_COUNT] = {36, 38, 40, 43, 45, 48, 50, 52, 55, 57, 60, 62, 64, 67, 69, 72, 74, 76, 79, 81, 84, 86, 88, 91, 93, 96};
+
 /* Store Laser States */
 int laserStates[LASER_COUNT];
 
@@ -31,9 +33,9 @@ int laserStates[LASER_COUNT];
  */
 void laserBreak(int laser, int voice) {
   if(flip[voice]) {
-    noteOff(0, laser + NOTE_OFFSET, 127);
+    noteOff(0, notes[laser], 127);
   } else {
-    noteOn(0, laser + NOTE_OFFSET, 127);
+    noteOn(0, notes[laser], 127);
   }
 }
 
@@ -42,9 +44,9 @@ void laserBreak(int laser, int voice) {
  */
 void laserIntact(int laser, int voice) {
   if(flip[voice]) {
-    noteOn(0, laser + NOTE_OFFSET, 127);
+    noteOn(0, notes[laser], 127);
   } else {
-    noteOff(0, laser + NOTE_OFFSET, 127);
+    noteOff(0, notes[laser], 127);
   }
 }
 
